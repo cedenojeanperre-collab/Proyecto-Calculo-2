@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Ahorro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>💰 Simulador de Ahorro</h1>
+        <p>Interés Simple y Compuesto</p>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <h2>Configura tu simulación</h2>
+            <form id="form-simulador">
+                <label for="capital">Capital inicial (A₀):</label>
+                <input type="number" id="capital" name="capital" required>
+
+                <label for="aporte">Aporte mensual (M):</label>
+                <input type="number" id="aporte" name="aporte" required>
+
+                <label for="tasa">Tasa de interés (% mensual):</label>
+                <input type="number" id="tasa" name="tasa" step="0.01" required>
+
+                <label for="tiempo">Tiempo (meses):</label>
+                <input type="number" id="tiempo" name="tiempo" required>
+
+                <label for="tipo">Tipo de ahorro:</label>
+                <select id="tipo" name="tipo">
+                    <option value="simple">Interés Simple</option>
+                    <option value="compuesto">Interés Compuesto</option>
+                    <option value="comparar">Comparar ambos</option>
+                </select>
+
+                <label for="objetivo">Objetivo del ahorro:</label>
+                <select id="objetivo" name="objetivo">
+                    <option value="casa">Casa</option>
+                    <option value="auto">Auto</option>
+                    <option value="estudios">Estudios</option>
+                    <option value="viajes">Viajes</option>
+                </select>
+
+                <button type="submit" class="btn">Simular</button>
+                <button type="button" class="btn secondary" onclick="limpiarHistorial()">Limpiar historial</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Resultado</h2>
+            <canvas id="grafico"></canvas>
+        </section>
+
+        <section class="card">
+            <h2>Historial de simulaciones</h2>
+            <ul id="historial"></ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>📊 Proyecto universitario - Simulador de Ahorro</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
+
