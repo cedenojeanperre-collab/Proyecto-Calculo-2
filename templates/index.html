@@ -3,66 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Ahorro</title>
+    <title>Simulador de Ahorro Inteligente</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>💰 Simulador de Ahorro</h1>
-        <p>Interés Simple y Compuesto</p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>💰 Simulador de Ahorro Inteligente</h1>
+            <p>Compara y optimiza tu estrategia de ahorro</p>
+        </header>
 
-    <main class="container">
-        <section class="card">
-            <h2>Configura tu simulación</h2>
-            <form id="form-simulador">
-                <label for="capital">Capital inicial (A₀):</label>
-                <input type="number" id="capital" name="capital" required>
+        <div class="grid">
+            <div class="card">
+                <h2>⚙️ Configuración</h2>
+                
+                <div class="info-box">
+                    💡 <strong>Tip:</strong> El interés compuesto genera mayores rendimientos a largo plazo al reinvertir las ganancias.
+                </div>
 
-                <label for="aporte">Aporte mensual (M):</label>
-                <input type="number" id="aporte" name="aporte" required>
+                <form id="form-simulador">
+                    <div class="form-group">
+                        <label for="capital">Capital inicial (USD)</label>
+                        <input type="number" id="capital" value="1000" min="0" step="0.01" required>
+                    </div>
 
-                <label for="tasa">Tasa de interés (% mensual):</label>
-                <input type="number" id="tasa" name="tasa" step="0.01" required>
+                    <div class="form-group">
+                        <label for="aporte">Aporte mensual (USD)</label>
+                        <input type="number" id="aporte" value="100" min="0" step="0.01" required>
+                    </div>
 
-                <label for="tiempo">Tiempo (meses):</label>
-                <input type="number" id="tiempo" name="tiempo" required>
+                    <div class="form-group">
+                        <label for="tasa">Tasa de interés (% mensual)</label>
+                        <input type="number" id="tasa" value="2" min="0" step="0.01" required>
+                    </div>
 
-                <label for="tipo">Tipo de ahorro:</label>
-                <select id="tipo" name="tipo">
-                    <option value="simple">Interés Simple</option>
-                    <option value="compuesto">Interés Compuesto</option>
-                    <option value="comparar">Comparar ambos</option>
-                </select>
+                    <div class="form-group">
+                        <label for="tiempo">Tiempo (meses)</label>
+                        <input type="number" id="tiempo" value="12" min="1" max="360" required>
+                    </div>
 
-                <label for="objetivo">Objetivo del ahorro:</label>
-                <select id="objetivo" name="objetivo">
-                    <option value="casa">Casa</option>
-                    <option value="auto">Auto</option>
-                    <option value="estudios">Estudios</option>
-                    <option value="viajes">Viajes</option>
-                </select>
+                    <div class="form-group">
+                        <label for="tipo">Tipo de visualización</label>
+                        <select id="tipo">
+                            <option value="comparar">Comparar ambos</option>
+                            <option value="simple">Solo interés simple</option>
+                            <option value="compuesto">Solo interés compuesto</option>
+                        </select>
+                    </div>
 
-                <button type="submit" class="btn">Simular</button>
-                <button type="button" class="btn secondary" onclick="limpiarHistorial()">Limpiar historial</button>
-            </form>
-        </section>
+                    <div class="form-group">
+                        <label for="objetivo">Objetivo del ahorro</label>
+                        <select id="objetivo">
+                            <option value="casa">🏠 Casa</option>
+                            <option value="auto">🚗 Auto</option>
+                            <option value="estudios">🎓 Estudios</option>
+                            <option value="viajes">✈️ Viajes</option>
+                            <option value="emergencia">🆘 Fondo de emergencia</option>
+                            <option value="retiro">👴 Retiro</option>
+                            <option value="inversion">📈 Inversión</option>
+                            <option value="otro">💼 Otro</option>
+                        </select>
+                    </div>
 
-        <section class="card">
-            <h2>Resultado</h2>
-            <canvas id="grafico"></canvas>
-        </section>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Simular</button>
+                        <button type="button" class="btn btn-secondary" onclick="limpiarHistorial()">Limpiar</button>
+                    </div>
+                </form>
 
-        <section class="card">
-            <h2>Historial de simulaciones</h2>
-            <ul id="historial"></ul>
-        </section>
-    </main>
+                <div id="resultado"></div>
+            </div>
 
-    <footer>
-        <p>📊 Proyecto universitario - Simulador de Ahorro</p>
-    </footer>
+            <div class="card">
+                <h2>📊 Gráfica Comparativa</h2>
+                <div id="grafico-container">
+                    <canvas id="grafico"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📋 Historial de Simulaciones</h2>
+            <ul id="historial">
+                <div class="empty-state">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    <p>No hay simulaciones todavía. ¡Crea tu primera simulación!</p>
+                </div>
+            </ul>
+        </div>
+
+        <footer>
+            <p>📊 Proyecto Universitario - Simulador de Ahorro © 2025</p>
+        </footer>
+    </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
